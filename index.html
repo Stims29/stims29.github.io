@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Steve Beyer — Automatisation IA pour TPE &amp; indépendants</title>
+<meta name="description" content="Vos tâches répétitives, automatisées : emails triés, demandes de devis pré-répondues, relances automatiques. Livré en 7 jours, forfait fixe.">
+<meta property="og:title" content="Steve Beyer — Automatisation IA pour TPE & indépendants">
+<meta property="og:description" content="Emails triés, devis pré-répondus, relances automatiques. Livré en 7 jours, forfait fixe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d0c; --surface:#121513; --border:#242a25;
+    --text:#f2f4f1; --muted:#9aa39c;
+    --accent:#34d399; --accent-dim:rgba(52,211,153,.12);
+    --mono:"JetBrains Mono",monospace; --sans:"Inter",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:700px;margin:0 auto;padding:0 22px}
+  section{padding:64px 0;border-top:1px solid var(--border)}
+  a{color:var(--accent)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+           color:var(--accent);text-transform:uppercase;margin-bottom:18px}
+  h1{font-size:clamp(34px,7vw,52px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+  h2{font-size:clamp(22px,4.5vw,28px);font-weight:800;letter-spacing:-.02em;margin-bottom:22px}
+  .sub{color:var(--muted);font-size:18px;margin:20px 0 30px;max-width:56ch}
+
+  .cta{display:inline-block;background:var(--accent);color:#06251a;font-weight:600;
+       padding:14px 26px;border-radius:10px;text-decoration:none;font-size:16px}
+  .cta:hover{filter:brightness(1.08)}
+  .cta-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:12px}
+
+  /* ---- signature : email reçu -> brouillon prêt ---- */
+  .hero{padding:76px 0 60px;border-top:none}
+  .mock{display:grid;grid-template-columns:1fr 34px 1fr;gap:12px;align-items:stretch;margin-top:44px}
+  .mail{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+        padding:16px 18px;font-size:13.5px}
+  .mail .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);
+             display:inline-block;margin-bottom:10px}
+  .mail.out{border-color:rgba(52,211,153,.45);background:linear-gradient(var(--accent-dim),transparent 65%),var(--surface)}
+  .mail.out .tag{color:var(--accent)}
+  .mail p{color:var(--muted);line-height:1.5}
+  .mail strong{color:var(--text);font-weight:600;display:block;margin-bottom:6px}
+  .arrow{align-self:center;text-align:center;color:var(--accent);font-size:20px}
+  @media (max-width:560px){
+    .mock{grid-template-columns:1fr}
+    .arrow{transform:rotate(90deg);padding:2px 0}
+  }
+
+  /* ---- vidéo ---- */
+  .player{position:relative;aspect-ratio:16/9;border:1px solid var(--border);
+          border-radius:14px;overflow:hidden;background:#000}
+  .player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  /* ---- listes ---- */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:560px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px}
+  .card strong{display:block;font-weight:600;margin-bottom:6px}
+  .card p{color:var(--muted);font-size:14.5px}
+
+  ol.steps{list-style:none;counter-reset:s;display:grid;gap:16px}
+  ol.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+  ol.steps li::before{content:"0" counter(s);font-family:var(--mono);color:var(--accent);
+       border:1px solid var(--border);border-radius:10px;height:44px;display:grid;
+       place-items:center;font-size:13px;background:var(--surface)}
+  ol.steps strong{font-weight:600}
+  ol.steps p{color:var(--muted);font-size:15px}
+
+  /* ---- prix ---- */
+  .price{display:flex;flex-wrap:wrap;align-items:baseline;gap:16px}
+  .price .n{font-family:var(--mono);font-size:clamp(34px,7vw,46px);font-weight:500;color:var(--accent)}
+  .price p{color:var(--muted);max-width:44ch}
+
+  /* ---- bio ---- */
+  .bio{display:grid;grid-template-columns:84px 1fr;gap:22px;align-items:start}
+  @media (max-width:560px){.bio{grid-template-columns:1fr}}
+  .avatar{width:84px;height:84px;border-radius:50%;background:var(--accent-dim);
+          border:1px solid rgba(52,211,153,.4);display:grid;place-items:center;
+          font-weight:800;font-size:26px;color:var(--accent);letter-spacing:-.02em}
+  .avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+  .bio p{color:var(--muted)}
+  .bio .rule{color:var(--text);font-weight:600}
+
+  footer{padding:44px 0 64px;border-top:1px solid var(--border);
+         font-family:var(--mono);font-size:12px;color:var(--muted);line-height:2}
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <p class="eyebrow">Automatisation IA · TPE &amp; indépendants</p>
+  <h1>Vos tâches répétitives,<br>automatisées.</h1>
+  <p class="sub">Emails triés, demandes de devis pré-répondues, relances qui partent
+     toutes seules. Construit sur mesure pour votre activité — livré en 7 jours, forfait fixe.</p>
+  <a class="cta" href="mailto:steve.beyer03@gmail.com?subject=Automatisation%20—%20premier%20échange">Décrivez-moi votre tâche</a>
+  <p class="cta-note">Réponse sous 24 h · premier échange de 15 min, gratuit</p>
+
+  <div class="mock" aria-label="Exemple : un email reçu, un brouillon de réponse généré">
+    <div class="mail">
+      <span class="tag">REÇU · 09:12</span>
+      <strong>Demande de devis</strong>
+      <p>« Bonjour, je gère un salon de coiffure et je passe un temps fou à répondre
+      aux demandes de rendez-vous… Pourriez-vous automatiser ça ? »</p>
+    </div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="mail out">
+      <span class="tag">BROUILLON PRÊT · 09:13</span>
+      <strong>Re: Demande de devis</strong>
+      <p>« Bonjour Julie, merci pour votre message. J'ai bien compris votre besoin…
+      je vous propose un court échange de 15 minutes. » <br>Vous relisez → Envoyer.</p>
+    </div>
+  </div>
+</header>
+
+<section id="demo">
+  <div class="wrap">
+    <p class="eyebrow">La démo · 1 min</p>
+    <h2>Regardez-le travailler.</h2>
+    <div class="player">
+      <iframe src="https://www.youtube-nocookie.com/embed/b-2ECAufj-4"
+        title="Démo — tri et réponse automatique des demandes de devis par IA"
+        loading="lazy" allowfullscreen
+        allow="accelerometer; encrypted-media; picture-in-picture"></iframe>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Ce que j'automatise</p>
+    <h2>Les tâches qui vous mangent vos journées.</h2>
+    <div class="grid">
+      <div class="card"><strong>Tri d'emails + brouillons de réponse</strong>
+        <p>Vos demandes entrantes détectées, classées, et pré-répondues dans vos brouillons.</p></div>
+      <div class="card"><strong>Relances automatiques</strong>
+        <p>Devis sans réponse, factures impayées, rendez-vous à confirmer — relancés sans y penser.</p></div>
+      <div class="card"><strong>Réponses aux avis Google</strong>
+        <p>Un brouillon adapté à chaque avis, prêt à publier en un clic.</p></div>
+      <div class="card"><strong>Reporting sans saisie</strong>
+        <p>Vos chiffres de la semaine compilés et envoyés automatiquement.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Comment ça marche</p>
+    <h2>Simple, cadré, sans surprise.</h2>
+    <ol class="steps">
+      <li><div><strong>Un échange de 15 minutes.</strong>
+        <p>Vous me décrivez la tâche qui vous prend du temps. Pas de jargon nécessaire.</p></div></li>
+      <li><div><strong>Un forfait fixe, annoncé avant de commencer.</strong>
+        <p>Pas de taux horaire, pas de compteur qui tourne. Vous savez ce que vous payez.</p></div></li>
+      <li><div><strong>Livré et testé en 7 jours.</strong>
+        <p>Et sur chaque projet, la même règle : l'IA propose, <em>vous</em> validez.
+        Rien ne part sans votre accord.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Tarif</p>
+    <div class="price">
+      <span class="n">300–800&nbsp;€</span>
+      <p>Forfait fixe selon la tâche, annoncé avant de commencer.
+         Acompte de 30&nbsp;% à la commande, solde à la livraison.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow">Qui suis-je</p>
+    <div class="bio">
+      <div class="avatar"><!-- Remplacez par : <img src="photo.jpg" alt="Steve Beyer"> -->SB</div>
+      <div>
+        <p>Je suis Steve, basé à Morlaix, en Bretagne. Je construis des automatisations
+        sur mesure : des petits systèmes fiables qui font le travail répétitif à votre
+        place, pour que vous restiez sur votre métier.</p>
+        <p style="margin-top:10px"><span class="rule">Ma règle sur chaque projet :</span>
+        l'IA propose, vous validez. Rien ne part jamais sans votre accord.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Steve Beyer · Entreprise individuelle (EI) — SIRET en cours d'attribution<br>
+    Morlaix, Bretagne ·
+    <a href="mailto:steve.beyer03@gmail.com">steve.beyer03@gmail.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
