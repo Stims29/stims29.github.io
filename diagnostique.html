@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chiffrez ce que vos tâches répétitives vous coûtent — Steve Beyer</title>
+  <meta name="description" content="Cochez vos tâches répétitives, réglez la fréquence et la durée, voyez ce qu'elles vous coûtent en heures et en euros par an. 2 minutes, sans inscription.">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Chiffrez ce que vos tâches répétitives vous coûtent — Steve Beyer">
+  <meta property="og:description" content="Cochez vos tâches répétitives, réglez la fréquence et la durée, voyez ce qu'elles vous coûtent en heures et en euros par an.">
+  <meta property="og:image" content="https://i.ytimg.com/vi/b-2ECAufj-4/maxresdefault.jpg">
+  <meta property="og:image:alt" content="Workflow de tri d'emails avec brouillons de réponse.">
+  <meta name="theme-color" content="#F4F1E7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Public+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    /* Même charte que index.html.
+       kraft = ce que la machine calcule (le total) ; papier = le reste. */
+    :root {
+      --papier: #F4F1E7;
+      --kraft:  #E6E0CE;
+      --encre:  #221F1A;
+      --tampon: #57429B;
+      --crayon: #A2382A;
+      --filet:  #C3B99F;
+
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "DM Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+
+      --shell:  46rem;
+      --mesure: 62ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--papier);
+      color: var(--encre);
+      font-family: var(--sans);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    h1, h2, p, label { overflow-wrap: break-word; }
+    p { margin: 0; }
+
+    a { color: var(--tampon); text-underline-offset: .18em; text-decoration-thickness: .08em; }
+    button, input, select, label { font: inherit; }
+    :focus-visible { outline: 2px solid var(--tampon); outline-offset: 2px; }
+
+    .shell {
+      width: min(100% - 2rem, var(--shell));
+      margin-inline: auto;
+      padding-block: 1.75rem 3rem;
+    }
+
+    .retour { display: inline-block; margin-bottom: 2rem; font-size: .9rem; }
+
+    h1 {
+      max-width: 20ch;
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 3.1rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+    }
+
+    .intro {
+      max-width: var(--mesure);
+      margin-top: 1.25rem;
+      font-size: clamp(1.02rem, 2.4vw, 1.15rem);
+      line-height: 1.55;
+    }
+
+    /* --- Total : collant en haut, il roule quand on coche -------------- */
+    .total {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      margin-top: 2rem;
+      padding: 1.1rem 1.25rem;
+      border: 1px solid var(--filet);
+      background: var(--kraft);
+    }
+
+    .total-chiffres {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: .4rem 1.5rem;
+    }
+
+    .cout {
+      font-family: var(--mono);
+      font-size: clamp(1.9rem, 8vw, 2.9rem);
+      font-weight: 500;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    .heures {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    .base {
+      margin-top: .55rem;
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+
+    /* --- Liste des tâches --------------------------------------------- */
+    .titre-liste {
+      margin: 2.25rem 0 1rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .taches { margin: 0; padding: 0; list-style: none; }
+
+    .tache {
+      padding-block: 1.1rem;
+      border-top: 1px solid var(--filet);
+    }
+    .tache:first-child { border-top: 0; }
+
+    .ligne {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      column-gap: .7rem;
+    }
+
+    .coche {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin: .1rem 0 0;
+      border: 1px solid var(--encre);
+      background: var(--papier);
+      cursor: pointer;
+      position: relative;
+    }
+    .coche::after {
+      content: "";
+      position: absolute;
+      left: .42rem;
+      top: .12rem;
+      width: .4rem;
+      height: .78rem;
+      border: solid var(--tampon);
+      border-width: 0 .16rem .16rem 0;
+      transform: rotate(42deg);
+      opacity: 0;
+    }
+    .coche:checked::after { opacity: 1; }
+    .coche:checked { border-color: var(--tampon); }
+
+    .tache label {
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    /* réglages : masqués tant que la tâche n'est pas cochée */
+    .reglages { display: none; }
+    .coche:checked ~ .reglages {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .5rem .65rem;
+      grid-column: 2;
+      margin-top: .7rem;
+      font-size: .92rem;
+    }
+
+    .reglages input,
+    .reglages select {
+      padding: .35rem .45rem;
+      border: 1px solid var(--filet);
+      background: var(--papier);
+      color: var(--encre);
+    }
+    .reglages input { width: 3.6rem; text-align: right; font-family: var(--mono); }
+    .reglages .unite { color: var(--encre); }
+
+    /* --- Appel à l'action --------------------------------------------- */
+    .action { margin-top: 2.5rem; }
+
+    .bouton {
+      display: inline-flex;
+      min-height: 3rem;
+      align-items: center;
+      justify-content: center;
+      padding: .7rem 1.4rem;
+      border: 1px solid var(--tampon);
+      background: var(--tampon);
+      color: var(--papier);
+      font-weight: 700;
+      line-height: 1.3;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .note-action { margin-top: .75rem; font-size: .85rem; }
+
+    /* --- Pied (identique à l'index) ----------------------------------- */
+    .pied {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--filet);
+      font-size: .9rem;
+    }
+    .pied p { line-height: 1.9; }
+    .siren { font-family: var(--mono); font-size: .82rem; font-weight: 500; white-space: nowrap; }
+
+    @media (min-width: 560px) {
+      .reglages input { width: 4rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+
+    <a class="retour" href="index.html">← Retour à l'accueil</a>
+
+    <h1>Ce que vos tâches répétitives vous coûtent.</h1>
+    <p class="intro">Cochez ce qui vous ressemble, réglez la fréquence et la durée. Le total se met à jour tout seul, en heures et en euros par an. Rien n'est enregistré, aucune inscription.</p>
+
+    <!-- Le total, collant, calculé en direct -->
+    <div class="total" aria-live="polite">
+      <div class="total-chiffres">
+        <span class="cout"><span id="cout">0</span> € / an</span>
+        <span class="heures"><span id="heures">0</span> h / an · ≈ <span id="jours">0</span> journées</span>
+      </div>
+      <p class="base">Base prudente : 20 € de l'heure, 230 jours ouvrés, 46 semaines et 12 mois travaillés par an (congés déduits). Une journée = 7 h. À ajuster selon votre réalité.</p>
+    </div>
+
+    <h2 class="titre-liste">Vos tâches répétitives</h2>
+    <ul class="taches" id="taches">
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t1" checked>
+          <label for="t1">Répondre aux mêmes questions (disponibilités, tarifs, horaires)</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="6" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, répondre aux mêmes questions">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, répondre aux mêmes questions">
+              <option value="jour" selected>jour</option>
+              <option value="semaine">semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="3" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, répondre aux mêmes questions">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t2" checked>
+          <label for="t2">Établir des devis, des factures ou des fiches</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="3" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, établir devis et factures">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, établir devis et factures">
+              <option value="jour">jour</option>
+              <option value="semaine" selected>semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="12" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, établir devis et factures">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t3" checked>
+          <label for="t3">Prendre et confirmer des rendez-vous</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="4" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, rendez-vous">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, rendez-vous">
+              <option value="jour" selected>jour</option>
+              <option value="semaine">semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="2" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, rendez-vous">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t4">
+          <label for="t4">Relancer les devis sans réponse</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="2" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, relance devis">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, relance devis">
+              <option value="jour">jour</option>
+              <option value="semaine" selected>semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="5" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, relance devis">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t5">
+          <label for="t5">Relancer les factures impayées</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="2" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, relance impayés">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, relance impayés">
+              <option value="jour">jour</option>
+              <option value="semaine" selected>semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="6" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, relance impayés">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t6">
+          <label for="t6">Recopier des informations d'un outil à un autre</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="4" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, ressaisie">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, ressaisie">
+              <option value="jour">jour</option>
+              <option value="semaine" selected>semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="5" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, ressaisie">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t7">
+          <label for="t7">Répondre aux avis clients</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="2" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, avis clients">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, avis clients">
+              <option value="jour">jour</option>
+              <option value="semaine" selected>semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="5" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, avis clients">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="tache">
+        <div class="ligne">
+          <input type="checkbox" class="coche" id="t8">
+          <label for="t8">Compiler les chiffres de la semaine (reporting)</label>
+          <div class="reglages">
+            <input type="number" class="nb" value="1" min="1" max="99" step="1" inputmode="numeric" aria-label="nombre de fois, reporting">
+            <span class="unite">fois par</span>
+            <select class="per" aria-label="période, reporting">
+              <option value="jour">jour</option>
+              <option value="semaine" selected>semaine</option>
+              <option value="mois">mois</option>
+            </select>
+            <span class="unite">·</span>
+            <input type="number" class="min" value="25" min="1" max="240" step="1" inputmode="numeric" aria-label="minutes par fois, reporting">
+            <span class="unite">min à chaque fois</span>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+
+    <div class="action">
+      <a class="bouton" id="mail" href="mailto:steve.beyer03@gmail.com?subject=Demande%20de%20diagnostic">Recevoir mon diagnostic par mail</a>
+      <p class="note-action">Le mail se pré-remplit avec les tâches cochées et le total. Vous relisez avant d'envoyer. Premier échange de 15 minutes, gratuit.</p>
+    </div>
+
+    <footer class="pied">
+      <p>Steve Beyer · Entreprise individuelle · <span class="siren">SIREN 518857057</span> · Morlaix, Bretagne · <a href="mailto:steve.beyer03@gmail.com">steve.beyer03@gmail.com</a><br><a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+
+      // La seule chose que ce script cache : trois multiplicateurs annuels
+      // et un taux. Tout le reste est de l'affichage.
+      var BASE = { jour: 230, semaine: 46, mois: 12 };
+      var TAUX = 20;      // € / heure
+      var JOURNEE = 7;    // heures par journée de travail
+      var MAIL = "steve.beyer03@gmail.com";
+
+      var fr = new Intl.NumberFormat("fr-FR");
+      function arrondiEuros(n) { return Math.round(n / 10) * 10; }
+      function nombre(el) { var v = parseFloat(el.value); return isFinite(v) && v > 0 ? v : 0; }
+
+      var taches = Array.prototype.slice.call(document.querySelectorAll(".tache"));
+      var elCout = document.getElementById("cout");
+      var elHeures = document.getElementById("heures");
+      var elJours = document.getElementById("jours");
+      var elMail = document.getElementById("mail");
+
+      function recalcule() {
+        var heures = 0;
+        var lignes = [];
+
+        taches.forEach(function (t) {
+          var coche = t.querySelector(".coche");
+          if (!coche.checked) { return; }
+          var nb = nombre(t.querySelector(".nb"));
+          var per = t.querySelector(".per").value;
+          var min = nombre(t.querySelector(".min"));
+          heures += nb * (BASE[per] || 0) * min / 60;
+          lignes.push(
+            "- " + t.querySelector("label").textContent.trim() +
+            " : " + nb + " fois par " + per + ", " + min + " min"
+          );
+        });
+
+        var cout = arrondiEuros(heures * TAUX);
+        elCout.textContent = fr.format(cout);
+        elHeures.textContent = fr.format(Math.round(heures));
+        elJours.textContent = fr.format(Math.round(heures / JOURNEE));
+
+        elMail.href = "mailto:" + MAIL +
+          "?subject=" + encodeURIComponent("Demande de diagnostic") +
+          "&body=" + encodeURIComponent(corpsMail(lignes, heures, cout));
+      }
+
+      function corpsMail(lignes, heures, cout) {
+        if (!lignes.length) {
+          return "Bonjour Steve,\n\n" +
+            "Je souhaite un diagnostic de mes tâches répétitives. " +
+            "Pouvez-vous me proposer un court échange de 15 minutes ?\n\nMerci.";
+        }
+        return "Bonjour Steve,\n\n" +
+          "Voici les tâches qui me prennent du temps :\n\n" +
+          lignes.join("\n") + "\n\n" +
+          "Estimation via votre calculateur : environ " + fr.format(Math.round(heures)) +
+          " h par an, soit " + fr.format(cout) + " € sur une base de 20 € de l'heure.\n\n" +
+          "Pouvez-vous me proposer un court échange de 15 minutes ?\n\nMerci.";
+      }
+
+      document.getElementById("taches").addEventListener("input", recalcule);
+      document.getElementById("taches").addEventListener("change", recalcule);
+      recalcule();
+    }());
+  </script>
+</body>
+</html>
