@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mentions légales — Steve Beyer</title>
+  <meta name="description" content="Mentions légales du site de Steve Beyer : éditeur, hébergeur, et traitement des données personnelles.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F4F1E7">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Public+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    /* Même charte que index.html et diagnostic.html. */
+    :root {
+      --papier: #F4F1E7;
+      --kraft:  #E6E0CE;
+      --encre:  #221F1A;
+      --tampon: #57429B;
+      --crayon: #A2382A;
+      --filet:  #C3B99F;
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --mono: "DM Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+      --shell: 44rem;
+      --mesure: 64ch;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--papier);
+      color: var(--encre);
+      font-family: var(--sans);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    h1, h2, p, li, dt, dd { overflow-wrap: break-word; }
+    p, dd { margin: 0; }
+
+    a { color: var(--tampon); text-underline-offset: .18em; text-decoration-thickness: .08em; }
+    :focus-visible { outline: 2px solid var(--tampon); outline-offset: 2px; }
+
+    .shell {
+      width: min(100% - 2rem, var(--shell));
+      margin-inline: auto;
+      padding-block: 1.75rem 3rem;
+    }
+
+    .retour { display: inline-block; margin-bottom: 2rem; font-size: .9rem; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.05;
+    }
+
+    .maj { margin-top: .75rem; font-family: var(--mono); font-size: .8rem; font-weight: 500; }
+
+    .bloc {
+      max-width: var(--mesure);
+      padding-block: 1.75rem;
+      border-top: 1px solid var(--filet);
+    }
+    .bloc:first-of-type { margin-top: 1.5rem; }
+
+    h2 {
+      margin: 0 0 1rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .bloc p + p { margin-top: 1rem; }
+
+    /* fiche d'identité : couples libellé / valeur */
+    .identite { margin: 0; }
+    .identite div {
+      display: grid;
+      grid-template-columns: 11rem 1fr;
+      gap: .2rem 1rem;
+      padding-block: .35rem;
+    }
+    .identite dt { color: var(--encre); font-weight: 700; }
+    .identite dd { }
+    .code { font-family: var(--mono); font-size: .92rem; font-weight: 500; }
+
+    ul { margin: 0; padding-left: 1.1rem; }
+    li { margin-block: .5rem; }
+    li::marker { color: var(--filet); }
+
+    .pied {
+      max-width: var(--mesure);
+      margin-top: 2.5rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--filet);
+      font-size: .9rem;
+    }
+
+    @media (max-width: 460px) {
+      .identite div { grid-template-columns: 1fr; gap: 0; }
+      .identite dt { margin-top: .35rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+
+    <a class="retour" href="index.html">← Retour à l'accueil</a>
+
+    <h1>Mentions légales</h1>
+    <p class="maj">Dernière mise à jour : à compléter</p>
+
+    <section class="bloc" aria-labelledby="editeur">
+      <h2 id="editeur">Éditeur du site</h2>
+      <dl class="identite">
+        <div><dt>Responsable</dt><dd>Steve Beyer</dd></div>
+        <div><dt>Statut</dt><dd>Entreprise individuelle (micro-entreprise)</dd></div>
+        <div><dt>Activité</dt><dd>Conseil et services informatiques (activité libérale)</dd></div>
+        <div><dt>SIREN</dt><dd class="code">518 857 057</dd></div>
+        <div><dt>Siège</dt><dd>Adresse à compléter — Morlaix, Bretagne, France</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:steve.beyer03@gmail.com">steve.beyer03@gmail.com</a></dd></div>
+        <div><dt>TVA</dt><dd>Non applicable, article 293 B du Code général des impôts (franchise en base)</dd></div>
+      </dl>
+    </section>
+
+    <section class="bloc" aria-labelledby="publication">
+      <h2 id="publication">Directeur de la publication</h2>
+      <p>Steve Beyer, en qualité de responsable de l'entreprise individuelle éditrice du site.</p>
+    </section>
+
+    <section class="bloc" aria-labelledby="hebergeur">
+      <h2 id="hebergeur">Hébergeur</h2>
+      <p>Le site est hébergé par GitHub Pages, service de&nbsp;:</p>
+      <dl class="identite">
+        <div><dt>Société</dt><dd>GitHub, Inc.</dd></div>
+        <div><dt>Adresse</dt><dd>88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis</dd></div>
+        <div><dt>Site</dt><dd><a href="https://github.com" rel="noopener">github.com</a></dd></div>
+        <div><dt>Assistance</dt><dd><a href="https://support.github.com" rel="noopener">support.github.com</a></dd></div>
+      </dl>
+      <p>GitHub ne publie pas de numéro de téléphone d'assistance&nbsp;; le contact se fait par les pages ci-dessus.</p>
+    </section>
+
+    <section class="bloc" aria-labelledby="donnees">
+      <h2 id="donnees">Données personnelles et cookies</h2>
+      <p>Ce site est volontairement sobre. Il ne dépose aucun cookie, n'utilise aucun outil de mesure d'audience, de publicité ou de suivi, et n'enregistre rien dans votre navigateur.</p>
+      <ul>
+        <li>Le calculateur (page « diagnostic ») fonctionne entièrement dans votre navigateur. Les tâches et durées que vous saisissez ne sont envoyées nulle part. Le bouton « Recevoir mon diagnostic » ouvre votre logiciel de messagerie avec un message pré-rempli&nbsp;: vous seul décidez de l'envoyer.</li>
+        <li>Aucun formulaire ne collecte de données sur le site. Le seul contact se fait par email, à votre initiative.</li>
+        <li>Comme pour tout site web, les serveurs de l'hébergeur (GitHub) peuvent enregistrer des données techniques de connexion, dont votre adresse IP, dans leurs journaux.</li>
+        <li>Les polices d'écriture sont fournies par le service Google Fonts. À l'affichage d'une page, votre navigateur se connecte aux serveurs de Google, qui reçoivent votre adresse IP. Aucun cookie n'est déposé à ce titre.</li>
+        <li>La vidéo de démonstration n'est chargée que si vous cliquez sur « Charger la vidéo ». Tant que vous ne cliquez pas, aucune connexion à YouTube n'a lieu. Si vous la chargez, elle est servie en mode « sans cookie » (youtube-nocookie.com)&nbsp;; YouTube (Google) reçoit alors des données de connexion.</li>
+      </ul>
+      <p>Pour toute question relative à vos données, ou pour exercer vos droits d'accès, de rectification et d'effacement, écrivez à <a href="mailto:steve.beyer03@gmail.com">steve.beyer03@gmail.com</a>.</p>
+    </section>
+
+    <section class="bloc" aria-labelledby="propriete">
+      <h2 id="propriete">Propriété intellectuelle</h2>
+      <p>Sauf mention contraire, les textes, la mise en page et le code de ce site sont la propriété de Steve Beyer. Toute reproduction ou réutilisation sans autorisation préalable est interdite. Les vidéos de démonstration sont hébergées sur YouTube et restent soumises aux conditions de ce service.</p>
+    </section>
+
+    <footer class="pied">
+      <p>Steve Beyer · Entreprise individuelle · <span class="code">SIREN 518 857 057</span> · Morlaix, Bretagne · <a href="mailto:steve.beyer03@gmail.com">steve.beyer03@gmail.com</a></p>
+    </footer>
+
+  </main>
+</body>
+</html>
